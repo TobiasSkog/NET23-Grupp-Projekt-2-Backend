@@ -38,14 +38,15 @@ const corsOptions = {
 };
 
 // Add CORS to app
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // Setup Routes
+// cors(corsOptions),
 app.get("/", (req, res) => res.json({ success: "Daniel gillar ost" }));
-app.use("/login", cors(corsOptions), loginRoute);
-app.use("/databases", cors(corsOptions), databasesRoute);
-app.use("/pages", cors(corsOptions), pagesRoute);
-app.use("/auth", cors(corsOptions), authRoute);
+app.use("/login", loginRoute);
+app.use("/databases", databasesRoute);
+app.use("/pages", pagesRoute);
+app.use("/auth", authRoute);
 
 // Last thing is to tell the server what port to listen to
 app.listen(port, () => console.log("Server is running on port:", port));
