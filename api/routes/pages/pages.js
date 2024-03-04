@@ -71,4 +71,67 @@ router.post("/projects", async (req, res) => {
 	}
 });
 
+//Edit project
+router.patch("/projects/:projectId", async (req, res) => {
+	try {
+		const projectId = req.params.projectId; // Extract projectId from request parameters
+		const formData = req.body; // Take formdata from request body
+
+		// Update the project with projectId and data
+		const result = await updateProject(projectId, formData);
+
+		if (result.success) {
+			res.status(200).json({ message: result.message });
+		} else {
+			res.status(500).json({ error: result.message });
+		}
+	} catch (error) {
+		console.error("Error updating project:", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+});
+
+async function updateProject(projectId, formData) {
+	try {
+		const data = {
+			Projectname: {
+				title: [{ type: "text", text: { content: formData.name } }],
+			},
+			Status: {
+				type: "select",
+				select: {
+					name: formData.status,
+				},
+			},
+			Hours: {
+				type: "number",
+				number: formData.hours,
+			},
+			Timespan: {
+				type: "date",
+				date: {
+					start: formData.startDate,
+					end: formData.endDate,
+				},
+			},
+			Image: { url: formData.image },
+		};
+		//console.log("Updating page with ID:", projectId); //this shows correct info in consol.
+		// Update the project page in Notion using the provided projectId (pageId)
+		await notionClient.pages.update({
+			page_id: projectId,
+			properties: data,
+		});
+
+		//console.log("Data update:", data);
+		return {
+			success: true,
+			message: "Project updated successfully",
+		};
+	} catch (error) {
+		console.error("Error updating project:", error);
+		return { success: false, message: "Error updating project" };
+	}
+}
+
 module.exports = router;
