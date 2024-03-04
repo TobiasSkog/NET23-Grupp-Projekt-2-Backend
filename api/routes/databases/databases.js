@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const notionClient = require("../components/notionClient");
+const notionClient = require("../../components/notionClient");
 
 async function DBPeopleIsExistingUser(userEmail) {
 	try {
