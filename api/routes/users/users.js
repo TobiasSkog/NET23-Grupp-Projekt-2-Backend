@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const createNotionClient = require("../components/notionClient");
+const createNotionClient = require("../../components/notionClient");
 
 router.get("/", async (req, res) =>
 	res.json({ message: "Endpoint Access Denied" })

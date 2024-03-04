@@ -39,6 +39,7 @@ async function getProjects(status) {
 			},
 			workedHours: page.properties["Worked hours"].rollup.number,
 			hoursLeft: page.properties["Hours left"].formula.number,
+			image: page.properties.Image.url,
 		};
 	});
 
