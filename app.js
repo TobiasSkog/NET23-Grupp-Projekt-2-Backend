@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const session = require("express-session");
+//const session = require("express-session");
 const bodyParser = require("body-parser");
 const app = express();
 const port = 3001;
@@ -15,11 +15,11 @@ app.use(
 app.use(bodyParser.json());
 
 // To be able to send a form
-//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Define routes
 const loginRoute = require("./api/routes/login");
-const databasesRoute = require("./api/routes/databases");
+const databasesRoute = require("./api/routes/databases/project");
 const pagesRoute = require("./api/routes/pages");
 const usersRoute = require("./api/routes/users");
 
