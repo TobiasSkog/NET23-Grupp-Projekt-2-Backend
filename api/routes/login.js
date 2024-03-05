@@ -14,7 +14,6 @@ router.get("/auth/callback", async (req, res) => {
 	// Check if we got a valid code in the query
 	if (!code || typeof code !== "string") {
 		res.status(400).send(userData, "Invalid or missing code parameter");
-		return;
 	}
 
 	try {
@@ -39,7 +38,6 @@ router.get("/auth/callback", async (req, res) => {
 		if (response.status !== 200) {
 			console.error("OAuth Token Request Failed. Status:", response.status);
 			res.status(401).send(userData);
-			return;
 		}
 
 		//  The response was 200 - Control if the authorized user is in our People Database
@@ -71,9 +69,8 @@ router.get("/auth/callback", async (req, res) => {
 		// respond to the original request with the userData object
 		// which will have it's data updated based on the result of
 		// the database query and the authentication
-		console.log("BACKEND - USERDATA:", userData);
+
 		res.send(userData);
-		return;
 		// } catch (error) {
 		// 	console.error("Error during user verification process:", error.message);
 		// 	res
