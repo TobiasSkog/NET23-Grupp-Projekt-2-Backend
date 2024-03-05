@@ -5,10 +5,15 @@ const axios = require("axios");
 
 router.get("/auth/callback", async (req, res) => {
 	const code = req.query.code;
+	let userData = {
+		email: "",
+		userRole: "Invalid",
+		target: "/",
+	};
 
 	// Check if we got a valid code in the query
 	if (!code || typeof code !== "string") {
-		res.status(400).send("Invalid or missing code parameter");
+		res.status(400).send(userData, "Invalid or missing code parameter");
 		return;
 	}
 
@@ -33,44 +38,35 @@ router.get("/auth/callback", async (req, res) => {
 		//Check if the response status is NOT 200 (the authentication FAILED)
 		if (response.status !== 200) {
 			console.error("OAuth Token Request Failed. Status:", response.status);
-			res.status(401).send("Failed Authorization");
+			res.status(401).send(userData);
 			return;
 		}
 
-		//try {
 		//  The response was 200 - Control if the authorized user is in our People Database
-		const userEmail = response.data.owner.user.person.email;
 
-		let validUser = await axios.post(
-			"http://localhost:3001/databases/login/confirmUser",
-			{
-				userEmail,
-			}
-		);
+		// BREAKING THIS OUT TO FRONTEND
+		// let validUser = await axios.post(
+		// 	"http://localhost:3001/databases/login/confirmUser",
+		// 	{
+		// 		userEmail: response.data.owner.user.person.email,
+		// 	}
+		// );
 
 		// Create a dataobject to return to frontend
-		let userData = {};
 
 		// Is the user a Valid User?
-		if (!validUser.data.isValidUser) {
-			// User is NOT found in the people table and is NOT a valid user
-			userData = {
-				email: response.data.owner.user.person.email,
-				userRole: "Invalid",
-				target: "/",
-			};
-		} else {
-			// User IS FOUND in the people table and IS A VALID user
-			userData = {
-				accessToken: response.data.access_token,
-				email: response.data.owner.user.person.email,
-				userRole: validUser.data.userRole,
-				target: validUser.data.UserRole === "Admin" ? "/admin" : "/user",
-				userId: response.data.owner.user.id,
-				botId: response.data.bot_id,
-				userObj: response.data.owner.user,
-			};
-		}
+		//if (!validUser.data.isValidUser) {
+		// User is NOT found in the people table and is NOT a valid user
+		//} else {
+		// User IS FOUND in the people table and IS A VALID user
+		userData = {
+			accessToken: response.data.access_token,
+			email: response.data.owner.user.person.email,
+			userId: response.data.owner.user.id,
+			botId: response.data.bot_id,
+			userObj: response.data.owner.user,
+		};
+		//}
 
 		// respond to the original request with the userData object
 		// which will have it's data updated based on the result of
