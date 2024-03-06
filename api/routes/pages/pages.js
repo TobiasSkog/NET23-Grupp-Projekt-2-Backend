@@ -51,7 +51,7 @@ async function createProject(formData) {
 	}
 }
 
-//Post new project
+//Create new project
 router.post("/projects", async (req, res) => {
 	try {
 		const formData = req.body; // Take data from req.body
@@ -116,8 +116,7 @@ async function updateProject(projectId, formData) {
 			},
 			Image: { url: formData.image },
 		};
-		//console.log("Updating page with ID:", projectId); //this shows correct info in consol.
-		// Update the project page in Notion using the provided projectId (pageId)
+		//console.log("Updating page with ID:", projectId);
 		await notionClient.pages.update({
 			page_id: projectId,
 			properties: data,
