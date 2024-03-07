@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const notionClient = require("../../components/notionClient");
+const notionClient = require("../../../components/notionClient");
 
 const database_id = process.env.NOTION_DB_PROJECTS_ID;
 
@@ -52,7 +52,7 @@ async function createProject(formData) {
 }
 
 //Create new project
-router.post("/projects", async (req, res) => {
+router.post("/", async (req, res) => {
 	try {
 		const formData = req.body; // Take data from req.body
 
@@ -72,7 +72,7 @@ router.post("/projects", async (req, res) => {
 });
 
 //Edit project
-router.patch("/projects/:projectId", async (req, res) => {
+router.patch("/:projectId", async (req, res) => {
 	try {
 		const projectId = req.params.projectId; // Extract projectId from request parameters
 		const formData = req.body; // Take formdata from request body
