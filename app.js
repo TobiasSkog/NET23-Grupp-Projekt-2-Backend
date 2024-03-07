@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Define routes
 const loginRoute = require("./api/routes/login/login");
 const databasesRoute = require("./api/routes/databases/databaseRoute");
-const pagesRoute = require("./api/routes/pages/pages");
+const pagesRoute = require("./api/routes/pages/pagesRoute");
 
 app.use("/login", loginRoute);
 app.use("/databases", databasesRoute);
