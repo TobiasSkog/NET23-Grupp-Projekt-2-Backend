@@ -5,10 +5,6 @@ const axios = require("axios");
 
 router.get("/auth/callback", async (req, res) => {
 	const code = req.query.code;
-	// Check if we got a valid code in the query
-	if (!code || typeof code !== "string") {
-		res.status(400).send(userData, "Invalid or missing code parameter");
-	}
 
 	// Create a dataobject to return to frontend
 	let userData = {
@@ -17,6 +13,11 @@ router.get("/auth/callback", async (req, res) => {
 		userRole: "Invalid",
 		target: "/",
 	};
+
+	// Check if we got a valid code in the query
+	if (!code || typeof code !== "string") {
+		res.status(400).send(userData, "Invalid or missing code parameter");
+	}
 
 	try {
 		let response = await axios.post(
