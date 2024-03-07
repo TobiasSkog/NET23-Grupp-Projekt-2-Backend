@@ -7,22 +7,11 @@ const database_id = process.env.NOTION_DB_PROJECTS_ID;
 //console.log(database_id);
 
 //Get projects
-async function getProjects(status) {
+async function getProjects() {
 	const payload = {
 		path: `databases/${database_id}/query`,
 		method: "POST",
-		body: {},
 	};
-
-	//If status is provided, add the filter to the payload
-	if (status) {
-		payload.body.filter = {
-			property: "Status",
-			select: {
-				equals: status,
-			},
-		};
-	}
 
 	const { results } = await notionClient.request(payload);
 	//console.log("Log to see result ", results);
@@ -48,8 +37,7 @@ async function getProjects(status) {
 
 //Get projects
 router.get("/projects", async (req, res) => {
-	const status = req.query.status;
-	const projects = await getProjects(status);
+	const projects = await getProjects();
 	res.json(projects);
 });
 
