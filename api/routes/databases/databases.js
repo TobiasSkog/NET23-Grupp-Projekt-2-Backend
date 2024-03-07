@@ -11,7 +11,7 @@ async function DBPeopleIsExistingUser(userEmail) {
 		name: "",
 	};
 
-	if (userEmail === "") {
+	if (!userEmail || userEmail === "") {
 		return userData;
 	}
 
@@ -19,20 +19,10 @@ async function DBPeopleIsExistingUser(userEmail) {
 		const response = await notionClient.databases.query({
 			database_id: process.env.NOTION_DB_PEOPLE_ID,
 			filter: {
-				and: [
-					{
-						property: "Email",
-						email: {
-							equals: userEmail,
-						},
-					},
-					{
-						property: "Password",
-						rich_text: {
-							equals: userPasswowrd,
-						},
-					},
-				],
+				property: "Email",
+				email: {
+					equals: userEmail,
+				},
 			},
 		});
 
