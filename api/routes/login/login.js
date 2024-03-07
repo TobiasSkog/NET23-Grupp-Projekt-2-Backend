@@ -5,7 +5,6 @@ const axios = require("axios");
 
 router.get("/auth/callback", async (req, res) => {
 	const code = req.query.code;
-
 	// Create a dataobject to return to frontend
 	let userData = {
 		email: "",

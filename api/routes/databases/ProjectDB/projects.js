@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const notionClient = require("../../components/notionClient");
+const notionClient = require("../../../components/notionClient");
 
 const database_id = process.env.NOTION_DB_PROJECTS_ID;
 //console.log(database_id);
@@ -36,7 +36,7 @@ async function getProjects() {
 }
 
 //Get projects
-router.get("/projects", async (req, res) => {
+router.get("/", async (req, res) => {
 	const projects = await getProjects();
 	res.json(projects);
 });

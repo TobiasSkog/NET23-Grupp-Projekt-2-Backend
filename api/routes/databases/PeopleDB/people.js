@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const notionClient = require("../../components/notionClient");
+const notionClient = require("../../../components/notionClient");
 
 async function DBPeopleIsExistingUser(userEmail) {
 	let userData = {
@@ -92,13 +92,18 @@ async function DBPeopleIsExistingUser2(userEmail, userPassword) {
 		}
 	} catch (error) {
 		console.error("Database Error:", error.message);
-		res.status(500).send("Internal server error during database query:", error.message);
+		res
+			.status(500)
+			.send("Internal server error during database query:", error.message);
 	}
 }
 
 router.post("/login/integratedUser", async (req, res) => {
 	try {
-		const isExistingUser = await DBPeopleIsExistingUser2(req.body.userEmail, req.body.userPassword);
+		const isExistingUser = await DBPeopleIsExistingUser2(
+			req.body.userEmail,
+			req.body.userPassword
+		);
 
 		return res.send({
 			isValidUser: isExistingUser.isValidUser,
@@ -108,7 +113,9 @@ router.post("/login/integratedUser", async (req, res) => {
 		});
 	} catch (error) {
 		console.error("Database Error:", error.message);
-		res.status(520).send("Internal server error during database query:", error.message);
+		res
+			.status(500)
+			.send("Internal server error during database query:", error.message);
 	}
 });
 
@@ -122,28 +129,12 @@ router.post("/login/authUser", async (req, res) => {
 			id: isExistingUser.id,
 		});
 	} catch (error) {
-		console.error("Database Error:", error.message);
-		res.status(520).send("Internal server error during database query:", error.message);
-				property: "Email",
-				email: {
-					equals: userEmail,
-				},
-			},
-		});
-
-		if (!response.results.length > 0) {
-			return userData;
-		}
-
-		userData.isValidUser = true;
-		userData.userRole = response.results[0].properties.Role.select.name;
-		userData.id = response.results[0].id;
-		return userData;
-	} catch (error) {
 		console.error("Error Query People Table:", error.message);
-		throw error;
+		res
+			.status(500)
+			.send("Internal server error during database query:", error.message);
 	}
-}
+});
 
 router.post("/login/authUser", async (req, res) => {
 	try {
@@ -155,7 +146,9 @@ router.post("/login/authUser", async (req, res) => {
 		});
 	} catch (error) {
 		console.error("Database Error:", error.message);
-		res.status(520).send("Internal server error during database query:", error.message);
+		res
+			.status(520)
+			.send("Internal server error during database query:", error.message);
 	}
 });
 
