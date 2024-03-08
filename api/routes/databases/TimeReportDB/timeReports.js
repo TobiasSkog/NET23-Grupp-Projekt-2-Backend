@@ -47,6 +47,51 @@ router.get("/filter/project", async (req, res) => {
 	}
 });
 
+//Get timereports filtered by personId
+router.get("/filter/people", async (req, res) => {
+	const property = req.query.property; // take property from query
+	const id = req.query.id; // take id from query
+
+	try {
+		const timeReport = await getTimereportByFilter(property, id);
+
+		//get all projects
+		const projectsResponse = await getProjects();
+
+		if (projectsResponse.length > 0) {
+			// Map key:id value: name
+			const idProjectNameMap = new Map(
+				projectsResponse.map((project) => [project.id, project.name])
+			);
+			//console.log(idProjectNameMap);
+			//we map to see if key in idProjectName match - then we get value name
+			const updatedTimeReports = timeReport.map((report) => ({
+				...report,
+				projectName: idProjectNameMap.get(report.project),
+			}));
+			//console.log(updatedTimeReports);
+
+			return res.json(updatedTimeReports);
+		} else {
+			return res.status(500).json({ error: projectsResponse.error });
+		}
+	} catch (error) {
+		return res.status(500).json({ error: "Server error" });
+	}
+});
+
+async function getProjects() {
+	try {
+		const response = await axios.get(
+			"http://localhost:3001/databases/projects"
+		);
+		return response.data;
+	} catch (error) {
+		console.error("Failed to fetch from the database:", error.message);
+		return { success: false, error: "Failed to fetch project data" };
+	}
+}
+
 async function getPeople() {
 	try {
 		const response = await axios.get("http://localhost:3001/databases/people");
