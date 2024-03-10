@@ -15,7 +15,7 @@ router.get("/auth/callback", async (req, res) => {
 
 	// Check if we got a valid code in the query
 	if (!code || typeof code !== "string") {
-		res.status(400).send(userData, "Invalid or missing code parameter");
+		res.status(400).send(userData + "Invalid or missing code parameter");
 	}
 
 	try {
@@ -41,7 +41,7 @@ router.get("/auth/callback", async (req, res) => {
 		//Check if the response status is NOT 200 (the authentication FAILED)
 		if (response.status !== 200) {
 			console.error("OAuth Token Request Failed. Status:", response.status);
-			return res.status(401).send(userData);
+			res.status(401).send(userData);
 		}
 		// User IS FOUND in the people table and IS A VALID user
 
@@ -53,7 +53,7 @@ router.get("/auth/callback", async (req, res) => {
 		return res.send(userData);
 	} catch (error) {
 		console.error("Error during OAuth process:", error.message);
-		return res.status(500).send("Internal server error during OAuth process.");
+		res.status(500).send("Internal server error during OAuth process.");
 	}
 });
 

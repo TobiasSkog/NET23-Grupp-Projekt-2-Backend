@@ -61,7 +61,7 @@ async function FindUserInDB(email, password, loginType) {
 		if (!response.results.length > 0) {
 			return userData;
 		}
-    
+
 		return (userData = {
 			id: response.results[0].id,
 			name: response.results[0].properties.Name.title[0].text.content,
@@ -76,20 +76,11 @@ async function FindUserInDB(email, password, loginType) {
 
 router.post("/login/integratedUser", async (req, res) => {
 	try {
-		const isExistingUser = await FindUserInDB(
-			req.body.userEmail,
-			req.body.userPassword,
-			"Integrated"
-		);
+		const isExistingUser = await FindUserInDB(req.body.userEmail, req.body.userPassword, "Integrated");
 		res.send(isExistingUser);
 	} catch (error) {
 		console.error("Database Error:", error.message);
-		res
-			.status(500)
-			.send(
-				"Internal server error during people database query Integrated:" +
-					error.message
-			);
+		res.status(500).send(`Internal server error during people database query - Integrated: ${error.message}`);
 	}
 });
 
@@ -99,12 +90,7 @@ router.post("/login/authUser", async (req, res) => {
 		res.send(isExistingUser);
 	} catch (error) {
 		console.error("Database Error:", error.message);
-		res
-			.status(500)
-			.send(
-				"Internal server error during people database query OAuth:" +
-					error.message
-			);
+		res.status(500).send(`Internal server error during people database query - OAuth: ${error.message}`);
 	}
 });
 
