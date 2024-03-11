@@ -8,8 +8,7 @@ router.patch("/:timereportId", async (req, res) => {
 	try {
 		const timereportId = req.params.timereportId; // timereportId from req.param
 		const formData = req.body; // formdata from request body
-		//console.log(timereportId);
-		console.log(formData);
+
 		// Update the timereport
 		const result = await updateTimereport(timereportId, formData);
 
@@ -30,15 +29,22 @@ async function updateTimereport(timereportId, formData) {
 			Date: {
 				type: "date",
 				date: {
-					start: formData.date,
+					start: formData?.date,
 				},
 			},
 			Hours: {
 				type: "number",
-				number: formData.hours,
+				number: formData?.hours,
 			},
 			Note: {
-				title: [{ type: "text", text: { content: formData.note } }],
+				title: [{ type: "text", text: { content: formData?.note } }],
+			},
+			Project: {
+				relation: [
+					{
+						id: formData?.project,
+					},
+				],
 			},
 		};
 		//console.log("Updating page with ID:", projectId);
