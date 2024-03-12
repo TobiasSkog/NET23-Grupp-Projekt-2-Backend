@@ -4,7 +4,6 @@ const router = express.Router();
 const notionClient = require("../../../components/notionClient");
 
 const database_id = process.env.NOTION_DB_PROJECTS_ID;
-//console.log(database_id);
 
 //Get projects
 async function getProjects() {
@@ -18,17 +17,17 @@ async function getProjects() {
 	const projects = results.map((page) => {
 		return {
 			id: page.id,
-			name: page.properties.Projectname.title[0].text.content,
-			status: page.properties.Status.select.name,
-			color: page.properties.Status.select.color,
-			hours: page.properties.Hours.number,
+			name: page.properties.Projectname?.title[0]?.text?.content,
+			status: page.properties.Status?.select?.name,
+			color: page.properties.Status?.select?.color,
+			hours: page.properties.Hours?.number,
 			timespan: {
-				start: page.properties.Timespan.date.start,
-				end: page.properties.Timespan.date.end,
+				start: page.properties.Timespan?.date?.start,
+				end: page.properties.Timespan?.date?.end,
 			},
-			workedHours: page.properties["Worked hours"].rollup.number,
-			hoursLeft: page.properties["Hours left"].formula.number,
-			image: page.properties.Image.url,
+			workedHours: page.properties["Worked hours"]?.rollup?.number,
+			hoursLeft: page.properties["Hours left"]?.formula?.number,
+			image: page.properties.Image?.url,
 		};
 	});
 
