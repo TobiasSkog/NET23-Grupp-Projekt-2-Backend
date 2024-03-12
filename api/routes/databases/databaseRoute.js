@@ -7,5 +7,5 @@ const timeReportsRoute = require("./TimeReportDB/timeReports");
 
 router.use("/projects", projectsRoute);
 router.use("/people", peopleRoute);
-router.use("/timeReports", timeReportsRoute);
+router.use("/timereports", timeReportsRoute);
 module.exports = router;
