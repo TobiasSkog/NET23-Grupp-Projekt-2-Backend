@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const notionClient = require("../../../components/notionClient");
 
+const database_id = process.env.NOTION_DB_PEOPLE_ID;
+
 async function FindUserInDB(email, password, loginType) {
 	let userData = {
 		isValidUser: false,
@@ -61,7 +63,7 @@ async function FindUserInDB(email, password, loginType) {
 		if (!response.results.length > 0) {
 			return userData;
 		}
-    
+
 		return (userData = {
 			id: response.results[0].id,
 			name: response.results[0].properties.Name.title[0].text.content,
@@ -105,6 +107,39 @@ router.post("/login/authUser", async (req, res) => {
 				"Internal server error during people database query OAuth:" +
 					error.message
 			);
+	}
+});
+
+//Get people
+async function getPeople() {
+	const payload = {
+		path: `databases/${database_id}/query`,
+		method: "POST",
+	};
+
+	const { results } = await notionClient.request(payload);
+	//console.log("Log to see result ", results);
+	const people = results.map((page) => {
+		return {
+			id: page.id,
+			name: page.properties.Name?.title[0]?.text?.content,
+		};
+	});
+
+	return people;
+}
+
+//Get people
+router.get("/", async (req, res) => {
+	try {
+		const reports = await getPeople();
+
+		res.json(reports);
+	} catch (error) {
+		console.error("Failed to fetch from the database:", error.message);
+		return res
+			.status(500)
+			.json({ error: "Server error, failed to fetch peopledata" });
 	}
 });
 

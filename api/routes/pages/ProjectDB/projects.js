@@ -14,27 +14,27 @@ async function createProject(formData) {
 			},
 			properties: {
 				Projectname: {
-					title: [{ type: "text", text: { content: formData.name } }],
+					title: [{ type: "text", text: { content: formData?.name } }],
 				},
 				Status: {
 					type: "select",
 					select: {
-						name: formData.status,
+						name: formData?.status,
 					},
 				},
 				Hours: {
 					type: "number",
-					number: formData.hours,
+					number: formData?.hours,
 				},
 				Timespan: {
 					type: "date",
 					date: {
-						start: formData.startDate,
-						end: formData.endDate,
+						start: formData?.startDate,
+						end: formData?.endDate,
 					},
 				},
 				Image: {
-					url: formData.image,
+					url: formData?.image,
 				},
 			},
 		};
@@ -95,26 +95,26 @@ async function updateProject(projectId, formData) {
 	try {
 		const data = {
 			Projectname: {
-				title: [{ type: "text", text: { content: formData.name } }],
+				title: [{ type: "text", text: { content: formData?.name } }],
 			},
 			Status: {
 				type: "select",
 				select: {
-					name: formData.status,
+					name: formData?.status,
 				},
 			},
 			Hours: {
 				type: "number",
-				number: formData.hours,
+				number: formData?.hours,
 			},
 			Timespan: {
 				type: "date",
 				date: {
-					start: formData.startDate,
-					end: formData.endDate,
+					start: formData?.startDate,
+					end: formData?.endDate,
 				},
 			},
-			Image: { url: formData.image },
+			Image: { url: formData?.image },
 		};
 		//console.log("Updating page with ID:", projectId);
 		await notionClient.pages.update({
