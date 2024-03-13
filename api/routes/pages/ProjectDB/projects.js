@@ -33,9 +33,6 @@ async function createProject(formData) {
 						end: formData?.endDate,
 					},
 				},
-				Image: {
-					url: formData?.image,
-				},
 			},
 		};
 
@@ -114,7 +111,6 @@ async function updateProject(projectId, formData) {
 					end: formData?.endDate,
 				},
 			},
-			Image: { url: formData?.image },
 		};
 		//console.log("Updating page with ID:", projectId);
 		await notionClient.pages.update({
