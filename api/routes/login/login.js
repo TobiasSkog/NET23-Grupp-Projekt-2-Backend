@@ -10,6 +10,7 @@ router.get("/auth/callback", async (req, res) => {
 		email: "",
 		name: "",
 		userRole: "Invalid",
+		email: "",
 		target: "/",
 	};
 
@@ -44,7 +45,6 @@ router.get("/auth/callback", async (req, res) => {
 			res.status(401).send(userData);
 		}
 		// User IS FOUND in the people table and IS A VALID user
-
 		userData = {
 			email: response.data.owner.user.person.email,
 			name: response.data.owner.user.name,

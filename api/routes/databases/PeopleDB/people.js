@@ -11,6 +11,7 @@ async function FindUserInDB(email, password, loginType) {
 		userRole: "Invalid",
 		id: "",
 		name: "",
+		email: "",
 	};
 	let response;
 
@@ -68,6 +69,7 @@ async function FindUserInDB(email, password, loginType) {
 			id: response.results[0].id,
 			name: response.results[0].properties.Name.title[0].text.content,
 			userRole: response.results[0].properties.Role.select.name,
+			email: email,
 			isValidUser: true,
 		});
 	} catch (error) {
@@ -123,9 +125,7 @@ router.get("/", async (req, res) => {
 		res.json(reports);
 	} catch (error) {
 		console.error("Failed to fetch from the database:", error.message);
-		return res
-			.status(500)
-			.json({ error: "Server error, failed to fetch peopledata" });
+		return res.status(500).json({ error: "Server error, failed to fetch peopledata" });
 	}
 });
 
