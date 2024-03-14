@@ -1,21 +1,22 @@
 require("dotenv").config();
 const notionClient = require("../../../components/notionClient");
 
-async function isProjectOverdue(projectName, io) {
+async function isProjectOverdue() {
 	const { results } = await notionClient.databases.query({
 		database_id: process.env.NOTION_DB_PROJECTS_ID,
 		filter: {
 			and: [
 				{
-					property: "Projectname",
-					title: {
-						equals: projectName,
-					},
-				},
-				{
 					property: "Hours left",
 					number: {
 						less_than: 0,
+					},
+				},
+				{
+					property: "Status",
+					type: "select",
+					select: {
+						equals: "Active",
 					},
 				},
 			],
@@ -29,10 +30,9 @@ async function isProjectOverdue(projectName, io) {
 				hoursLeft: e.properties["Hours left"].formula.number,
 			};
 		});
-		io.emit("projectOverdue", grabResults); // Emitting data to frontend
-		return grabResults;
+
+    return grabResults;
 	}
-	return results;
 }
 
-module.exports = { isProjectOverdue: isProjectOverdue };
+module.exports = isProjectOverdue;

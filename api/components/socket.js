@@ -1,5 +1,5 @@
 const socketIo = require("socket.io");
-const timeReports = require("../routes/databases/TimeReportDB/isProjectOverdue");
+const isProjectOverdue = require("../routes/databases/TimeReportDB/isProjectOverdue");
 
 function initializeSocket(server) {
 	const io = socketIo(server, {
@@ -9,17 +9,18 @@ function initializeSocket(server) {
 		},
 	});
 
-	io.on("connection", (socket) => {
-		console.log("A user connected");
+	async function checkAndEmitData() {
+		const overdueProjects = await isProjectOverdue();
+		if (overdueProjects.length > 0) {
+			io.emit("projectOverdue", overdueProjects);
+		}
+	}
 
-		socket.on("checkProjects", () => {
-			timeReports.isProjectOverdue("Website TechInfo", io);
-		});
-
-		socket.on("disconnect", () => {
-			console.log("User disconnected");
-		});
-	});
+	setInterval(checkAndEmitData, 300000);
+	// 300000 = 5 minutes
+	// 60000  = 1 minute
+	// 30000  = 30 seconds
+	// 15000  = 15 seconds
 }
 
 module.exports = initializeSocket;
