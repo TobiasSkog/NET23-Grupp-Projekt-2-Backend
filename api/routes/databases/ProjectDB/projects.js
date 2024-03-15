@@ -27,6 +27,7 @@ async function getProjects() {
 			},
 			workedHours: page.properties["Worked hours"]?.rollup?.number,
 			hoursLeft: page.properties["Hours left"]?.formula?.number,
+			teamMember: page.properties.TeamMember?.email ?? "No Team Member",
 		};
 	});
 
