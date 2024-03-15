@@ -11,7 +11,7 @@ function initializeSocket(server) {
 
 	async function checkAndEmitData() {
 		const overdueProjects = await isProjectOverdue();
-		if (overdueProjects.length > 0) {
+		if (overdueProjects && overdueProjects.length > 0) {
 			io.emit("projectOverdue", overdueProjects);
 		}
 	}
