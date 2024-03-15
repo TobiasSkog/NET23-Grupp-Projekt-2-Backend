@@ -33,6 +33,10 @@ async function createProject(formData) {
 						end: formData?.endDate,
 					},
 				},
+				TeamMember: {
+					type: "email",
+					email: formData?.teamMember ?? "",
+				},
 			},
 		};
 
@@ -110,6 +114,10 @@ async function updateProject(projectId, formData) {
 					start: formData?.startDate,
 					end: formData?.endDate,
 				},
+			},
+			TeamMember: {
+				type: "email",
+				email: formData?.teamMember ?? "",
 			},
 		};
 		//console.log("Updating page with ID:", projectId);
