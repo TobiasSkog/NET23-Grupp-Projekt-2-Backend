@@ -33,9 +33,8 @@ async function createProject(formData) {
 						end: formData?.endDate,
 					},
 				},
-				TeamMember: {
-					type: "email",
-					email: formData?.teamMember ?? "",
+				Person: {
+					relation: formData.teamMember.map((id) => ({ id })),
 				},
 			},
 		};
@@ -115,9 +114,8 @@ async function updateProject(projectId, formData) {
 					end: formData?.endDate,
 				},
 			},
-			TeamMember: {
-				type: "email",
-				email: formData?.teamMember ?? "",
+			Person: {
+				relation: formData.teamMember.map((id) => ({ id })),
 			},
 		};
 		//console.log("Updating page with ID:", projectId);
