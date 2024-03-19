@@ -15,6 +15,9 @@ async function getProjects() {
 	const { results } = await notionClient.request(payload);
 	//console.log("Log to see result ", results);
 	const projects = results.map((page) => {
+		const teamMembers = page.properties.Person?.relation.map(
+			(person) => person.id
+		);
 		return {
 			id: page.id,
 			name: page.properties.Projectname?.title[0]?.text?.content,
@@ -27,7 +30,7 @@ async function getProjects() {
 			},
 			workedHours: page.properties["Worked hours"]?.rollup?.number,
 			hoursLeft: page.properties["Hours left"]?.formula?.number,
-			teamMember: page.properties.TeamMember?.email ?? "No Team Member",
+			teamMember: teamMembers,
 		};
 	});
 
