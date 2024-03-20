@@ -24,14 +24,16 @@ async function isProjectOverdue() {
 	});
 
 	if (results.length > 0) {
+		console.log(results);
 		const grabResults = results.map((e) => {
 			return {
 				name: e.properties.Projectname.title[0].text.content,
 				hoursLeft: e.properties["Hours left"].formula.number,
+				id: e.id,
 			};
 		});
 
-    return grabResults;
+		return grabResults;
 	}
 }
 
