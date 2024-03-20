@@ -24,7 +24,6 @@ async function isProjectOverdue() {
 	});
 
 	if (results.length > 0) {
-		console.log(results);
 		const grabResults = results.map((e) => {
 			return {
 				name: e.properties.Projectname.title[0].text.content,
