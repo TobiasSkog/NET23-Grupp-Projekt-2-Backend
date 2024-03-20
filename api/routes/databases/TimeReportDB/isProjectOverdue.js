@@ -28,6 +28,7 @@ async function isProjectOverdue() {
 			return {
 				name: e.properties.Projectname.title[0].text.content,
 				hoursLeft: e.properties["Hours left"].formula.number,
+				id: e.id,
 			};
 		});
 
