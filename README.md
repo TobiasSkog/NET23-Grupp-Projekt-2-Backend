@@ -12,5 +12,13 @@ Kräver att du har Node.js installerat på ditt system.
 När du laddat hem frontend och backend projetket till ditt system, så behöver du köra commandot `npm install` i både backend och frontend mappen för att installera de dependencies som användes i vardera projekt.
 När du har installerat dependencies så kör du kommandot `npm start` i frontend projektet och `npm run dev` i backend projektet.
 
+# Struktur av källkoden
+
+
+
+# Länk till frontend
+[frontend](https://github.com/TobiasSkog/NET23-Grupp-Projekt-2-Frontend)
+
+
 # Scrum board
 https://app.asana.com/0/1206658293714394/1206657895637907
