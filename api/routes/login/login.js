@@ -50,7 +50,7 @@ router.get("/auth/callback", async (req, res) => {
 			name: response.data.owner.user.name,
 		};
 
-		return res.send(userData);
+		return res.status(200).send(userData);
 	} catch (error) {
 		console.error("Error during OAuth process:", error.message);
 		res.status(500).send("Internal server error during OAuth process.");

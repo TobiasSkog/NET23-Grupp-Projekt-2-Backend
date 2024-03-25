@@ -7,7 +7,7 @@ const timereport_id = process.env.NOTION_DB_TIMEREPORTS_ID;
 //user
 async function createTimeReportUser(formData) {
 	try {
-		console.log("Received formData:", formData);
+		//console.log("Received formData:", formData);
 		const response = await notionClient.pages.create({
 			parent: { database_id: timereport_id },
 			properties: {
@@ -47,7 +47,7 @@ async function createTimeReportUser(formData) {
 	}
 }
 
-//user
+//user localhost:3001/pages/timereports/
 router.post("/", async (req, res) => {
 	try {
 		const formData = req.body;
