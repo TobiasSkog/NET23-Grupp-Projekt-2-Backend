@@ -15,6 +15,13 @@ När du har installerat dependencies så kör du kommandot `npm start` i fronten
 # Struktur av källkoden
 
 
+# Färdiga användare för att testa appen
+| Email           | Lösenord |
+| --------------- | -------- |
+| user@email.com  | 123      |
+| admin@email.com | 123      |
+
+
 
 # Länk till frontend
 [frontend](https://github.com/TobiasSkog/NET23-Grupp-Projekt-2-Frontend)
