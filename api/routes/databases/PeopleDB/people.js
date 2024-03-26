@@ -118,7 +118,6 @@ async function getPeople() {
 	};
 
 	const { results } = await notionClient.request(payload);
-	//console.log("Log to see result ", results);
 	const people = results.map((page) => {
 		return {
 			id: page.id,

@@ -24,7 +24,6 @@ router.get("/filter/project", async (req, res) => {
 		//Get all people
 		const peopleResponse = await getPeople();
 
-		//console.log(peopleResponse);
 		if (peopleResponse.length > 0) {
 			//Map key:id value:name
 			const idNameMap = new Map(
@@ -37,7 +36,6 @@ router.get("/filter/project", async (req, res) => {
 				name: idNameMap.get(report.person),
 			}));
 
-			//console.log(updatedTimeReports);
 			return res.json(updatedTimeReports);
 		} else {
 			return res.status(500).json({ error: peopleResponse.error });
@@ -63,13 +61,11 @@ router.get("/filter/people", async (req, res) => {
 			const idProjectNameMap = new Map(
 				projectsResponse.map((project) => [project.id, project.name])
 			);
-			//console.log(idProjectNameMap);
 			//we map to see if key in idProjectName match - then we get value name
 			const updatedTimeReports = timeReport.map((report) => ({
 				...report,
 				projectName: idProjectNameMap.get(report.project),
 			}));
-			//console.log(updatedTimeReports);
 
 			return res.json(updatedTimeReports);
 		} else {
@@ -110,7 +106,6 @@ async function getTimereports() {
 	};
 
 	const { results } = await notionClient.request(payload);
-	//console.log("Log result ", results);
 	const reports = results.map((page) => {
 		return {
 			id: page.id,
@@ -151,7 +146,6 @@ async function getTimereportByFilter(property, id) {
 			project: page.properties.Project?.relation[0]?.id,
 		};
 	});
-	//console.log(reports);
 	return reports;
 }
 

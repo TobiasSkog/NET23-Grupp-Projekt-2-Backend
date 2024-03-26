@@ -7,7 +7,6 @@ const timereport_id = process.env.NOTION_DB_TIMEREPORTS_ID;
 //user
 async function createTimeReportUser(formData) {
 	try {
-		console.log("Received formData:", formData);
 		const response = await notionClient.pages.create({
 			parent: { database_id: timereport_id },
 			properties: {
@@ -33,7 +32,6 @@ async function createTimeReportUser(formData) {
 			},
 		});
 
-		// console.log("Time report created:", response);
 		return {
 			success: true,
 			message: "Time report added successfully",
@@ -91,7 +89,6 @@ async function updateTimeReportUser(timeReportId, formData) {
 			},
 		});
 
-		// console.log('Time report updated:', response);
 		return {
 			success: true,
 			message: "Time report updated successfully",
@@ -164,13 +161,11 @@ async function updateTimereport(timereportId, formData) {
 				],
 			},
 		};
-		//console.log("Updating page with ID:", projectId);
 		await notionClient.pages.update({
 			page_id: timereportId,
 			properties: data,
 		});
 
-		//console.log("Data update:", data);
 		return {
 			success: true,
 			message: "Timereport updated successfully",

@@ -40,7 +40,6 @@ async function createProject(formData) {
 		};
 
 		const response = await notionClient.pages.create(data);
-		//console.log("Data", response);
 		return {
 			success: true,
 			message: "Data received and sent to Notion successfully",
@@ -75,8 +74,7 @@ router.post("/", async (req, res) => {
 router.patch("/:projectId", async (req, res) => {
 	try {
 		const projectId = req.params.projectId; // Extract projectId from request parameters
-		const formData = req.body; // Take formdata from request body
-
+    const formData = req.body; // Take formdata from request body
 		// Update the project with projectId and data
 		const result = await updateProject(projectId, formData);
 
@@ -118,13 +116,11 @@ async function updateProject(projectId, formData) {
 				relation: formData.teamMember.map((id) => ({ id })),
 			},
 		};
-		//console.log("Updating page with ID:", projectId);
 		await notionClient.pages.update({
 			page_id: projectId,
 			properties: data,
 		});
 
-		//console.log("Data update:", data);
 		return {
 			success: true,
 			message: "Project updated successfully",
