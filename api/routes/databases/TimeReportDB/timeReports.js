@@ -26,9 +26,7 @@ router.get("/filter/project", async (req, res) => {
 
 		if (peopleResponse.length > 0) {
 			//Map key:id value:name
-			const idNameMap = new Map(
-				peopleResponse.map((person) => [person.id, person.name])
-			);
+			const idNameMap = new Map(peopleResponse.map((person) => [person.id, person.name]));
 
 			//we map to see if key in idNameMap match - then we get value name
 			const updatedTimeReports = timeReport.map((report) => ({
@@ -58,9 +56,7 @@ router.get("/filter/people", async (req, res) => {
 
 		if (projectsResponse.length > 0) {
 			// Map key:id value: name
-			const idProjectNameMap = new Map(
-				projectsResponse.map((project) => [project.id, project.name])
-			);
+			const idProjectNameMap = new Map(projectsResponse.map((project) => [project.id, project.name]));
 			//we map to see if key in idProjectName match - then we get value name
 			const updatedTimeReports = timeReport.map((report) => ({
 				...report,
@@ -79,7 +75,8 @@ router.get("/filter/people", async (req, res) => {
 async function getProjects() {
 	try {
 		const response = await axios.get(
-			"http://localhost:3001/databases/projects"
+			// "http://localhost:3001/databases/projects"
+			"http://127.0.0.1:3001/databases/projects"
 		);
 		return response.data;
 	} catch (error) {
@@ -90,7 +87,8 @@ async function getProjects() {
 
 async function getPeople() {
 	try {
-		const response = await axios.get("http://localhost:3001/databases/people");
+		// const response = await axios.get("http://localhost:3001/databases/people");
+		const response = await axios.get("http://127.0.0.1:3001/databases/people");
 		return response.data;
 	} catch (error) {
 		console.error("Failed to fetch from the database:", error.message);
@@ -153,37 +151,37 @@ const timeReportDbId = process.env.NOTION_DB_TIMEREPORTS_ID;
 
 //Get tiemReport
 async function getTimeReports() {
-    try {
-        const response = await notionClient.databases.query({
-            database_id: timeReportDbId,
-        });
+	try {
+		const response = await notionClient.databases.query({
+			database_id: timeReportDbId,
+		});
 
-        const timeReports = response.results.map((page) => {
-            return {
-                id: page.id,
-                date: page.properties.Date?.date?.start ?? 'No date available',
-                personId: page.properties.Person?.relation?.[0]?.id ?? 'No person ID',
-                hours: page.properties.Hours?.number ?? 0,
-                projectId: page.properties.Project?.relation?.[0]?.id ?? 'No project ID',
-                note: page.properties.Note?.title?.[0]?.text?.content ?? 'No note',
-            };
-        });
+		const timeReports = response.results.map((page) => {
+			return {
+				id: page.id,
+				date: page.properties.Date?.date?.start ?? "No date available",
+				personId: page.properties.Person?.relation?.[0]?.id ?? "No person ID",
+				hours: page.properties.Hours?.number ?? 0,
+				projectId: page.properties.Project?.relation?.[0]?.id ?? "No project ID",
+				note: page.properties.Note?.title?.[0]?.text?.content ?? "No note",
+			};
+		});
 
-        return timeReports;
-    } catch (error) {
-        console.error("Failed to retrieve time reports:", error);
-        throw error; 
-    }
+		return timeReports;
+	} catch (error) {
+		console.error("Failed to retrieve time reports:", error);
+		throw error;
+	}
 }
 
 //get TimeReports
 router.get("/", async (req, res) => {
-    try {
-        const timeReports = await getTimeReports();
-        res.json(timeReports);
-    } catch (error) {
-        res.status(500).json({ message: "Failed to retrieve time reports", error: error.toString() });
-    }
+	try {
+		const timeReports = await getTimeReports();
+		res.json(timeReports);
+	} catch (error) {
+		res.status(500).json({ message: "Failed to retrieve time reports", error: error.toString() });
+	}
 });
 
 module.exports = router;

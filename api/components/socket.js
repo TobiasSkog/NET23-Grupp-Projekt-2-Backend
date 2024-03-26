@@ -8,7 +8,6 @@ function initializeSocket(server) {
 			methods: ["GET", "POST"],
 		},
 	});
-
 	async function checkAndEmitData() {
 		const overdueProjects = await isProjectOverdue();
 		if (overdueProjects && overdueProjects.length > 0) {
@@ -16,7 +15,7 @@ function initializeSocket(server) {
 		}
 	}
 
-	setInterval(checkAndEmitData, 300000);
+	setInterval(checkAndEmitData, 15000);
 	// 300000 = 5 minutes
 	// 60000  = 1 minute
 	// 30000  = 30 seconds
