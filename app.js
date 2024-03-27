@@ -11,6 +11,8 @@ app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// app.use(express.static(path.join(__dirname, "../webb-grupp2/build/index.html")));
+
 const loginRoute = require("./api/routes/login/login");
 const databasesRoute = require("./api/routes/databases/databaseRoute");
 const pagesRoute = require("./api/routes/pages/pagesRoute");
@@ -23,3 +25,7 @@ const server = http.createServer(app);
 initializeSocket(server);
 //använder server ist för app. den kör båda, np np.
 server.listen(port, () => console.log("Server is running on port:", port));
+
+// this.app.get("*", (req, res) => {
+// 	res.sendFile(path.join(__dirname, "../webb-grupp2/build/index.html"));
+// });
